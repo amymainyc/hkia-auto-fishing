@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore", message=".*torch.cuda.amp.autocast.*")
 model = torch.hub.load(
     repo_or_dir='yolov5', 
     model='custom', 
-    path=f'best.pt', 
+    path=f'model.pt', 
     source='local'
 )
 model.conf = 0.5  # Set confidence threshold
