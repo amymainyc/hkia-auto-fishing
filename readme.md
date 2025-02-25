@@ -12,24 +12,26 @@ Another thing, this model is trained mostly with fishing images from the Spooky 
 - Download Python here: https://www.python.org/downloads/
 - Download the file titled "autofisher.zip" here: https://github.com/amymainyc/hkia-auto-fishing/releases/
 - Right-click the file in file explorer and click "Extract All"
-- Find the folder you just extracted (should be titled "autofisher"), right-click the foler, then click "Open in Terminal"
-- Run the following commands: 
+- Find the folder you just extracted (should be titled "autofisher"), right-click the folder, then click "Open in Terminal"
+- Run the following command: `pip install -r requirements.txt` 
 
-```
-pip install -r requirements.txt
-python fishing.py
-```
+## Running
+- To start the fishing AI, run the following command in the same terminal as above: `python fishing.py`
+- To pause/resume, press and hold the F10 key for 1 second.
+- To stop the program entirely, use `Ctrl-C` in the terminal
 
-If you followed the instructions above, the fishing AI should be running. You may need to adjust some things: 
+If you followed the instructions above, the fishing AI should be running. However, you may need to adjust some things: 
 
 ## Adjustments
 ### Screen Capture Region
-Open "fishing.py" and find the lines that say:
+Open "fishing.py" in any text editor and find the lines that say:
 ```
 # Define the screen capture region (x, y, width, height)
 CAPTURE_REGION = (1280, 720, 1280, 720) # bottom right
 ```
 This defines the region of the screen that the program captures. My monitor has a resolution of 2560x1440, so the code above captures the bottom right of my screen. You might have to adjust this based on your resolution and how big your game window is. You could make it capture your whole screen but that may slow down your computer. 
+
+**Note:** Whenever you change anything in "fishing.py", you must stop and restart the program using `Ctrl-C` and `python fishing.py`.
 
 ### Why did it stop fishing?
 When you fish in HKIA, the fish sometimes pulls your character so that it faces left or right of where you initially cast your fishing rod. This sometimes makes your fishing line unable to cast. To counter this, if a fish has not been caught for 1 minute, it will nudge the character in the UP direction. This ONLY works if the HKIA window is in focus. 
