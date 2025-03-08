@@ -9,10 +9,11 @@ I created this with the intention to learn more about machine learning and objec
 Another thing, this model is trained mostly with fishing images from the Spooky Swamp dock/lily pads next to the witch hut. Therefore, that is where it will perform best. It may work in other places, just less effectively. I may train it to fish in other areas in the future. 
 
 ## Setup:
-- Download Python here: https://www.python.org/downloads/
+- Download Terminal: https://apps.microsoft.com/detail/9n0dx20hk701?hl=en-US&gl=US
 - Download the file titled "autofisher.zip" here: https://github.com/amymainyc/hkia-auto-fishing/releases/
 - Right-click the file in file explorer and click "Extract All"
 - Find the folder you just extracted (should be titled "autofisher"), right-click the folder, then click "Open in Terminal"
+- If you don't have Python installed, type "python" and hit enter. It will prompt you to install Python. 
 - Run the following command: `pip install -r requirements.txt` 
 
 ## Running
