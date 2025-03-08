@@ -47,7 +47,7 @@ def press_left():
     """Press (and hold) the D-pad left if not already held."""
     global left_pressed
     if not left_pressed:
-        gamepad.press_button(button=vg.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_LEFT)
+        gamepad.left_joystick(-32767, 0)
         gamepad.update()
         left_pressed = True
 
@@ -55,7 +55,7 @@ def release_left():
     """Release the D-pad left if it is currently held."""
     global left_pressed
     if left_pressed:
-        gamepad.release_button(button=vg.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_LEFT)
+        gamepad.left_joystick(0, 0)
         gamepad.update()
         left_pressed = False
 
@@ -63,7 +63,7 @@ def press_right():
     """Press (and hold) the D-pad right if not already held."""
     global right_pressed
     if not right_pressed:
-        gamepad.press_button(button=vg.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_RIGHT)
+        gamepad.left_joystick(32767, 0)
         gamepad.update()
         right_pressed = True
 
@@ -71,7 +71,7 @@ def release_right():
     """Release the D-pad right if it is currently held."""
     global right_pressed
     if right_pressed:
-        gamepad.release_button(button=vg.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_RIGHT)
+        gamepad.left_joystick(0, 0)
         gamepad.update()
         right_pressed = False
 

@@ -3,3 +3,4 @@ ultralytics
 vgamepad
 keyboard 
 torch 
+numpy
