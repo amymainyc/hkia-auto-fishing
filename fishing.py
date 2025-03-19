@@ -25,7 +25,7 @@ CAPTURE_REGION = (1280, 720, 1280, 720) # bottom right
 # Timing parameters
 RECAST_DELAY = 2    # If no arrow is detected for this many seconds, recast
 TIMEOUT = 15        # Additional delay before another recast can occur
-HOLD_BUFFER = 0.4   # Continue holding the stick direction for this many seconds after the arrow disappears
+HOLD_BUFFER = 0.5   # Continue holding the stick direction for this many seconds after the arrow disappears
 RECAST_TOO_LONG = 60  # If recasting has been active for more than 60 seconds, reposition character
 
 # Initialize the virtual gamepad
@@ -45,35 +45,31 @@ recast_start_time = None
 
 def press_left():
     """Press (and hold) the D-pad left if not already held."""
-    global left_pressed
+    global left_pressed, right_pressed
     if not left_pressed:
         gamepad.left_joystick(-32767, 0)
         gamepad.update()
         left_pressed = True
+        right_pressed = False
 
-def release_left():
+def reset_stick():
     """Release the D-pad left if it is currently held."""
     global left_pressed
-    if left_pressed:
+    global right_pressed
+    if left_pressed or right_pressed:
         gamepad.left_joystick(0, 0)
         gamepad.update()
         left_pressed = False
+        right_pressed = False
 
 def press_right():
     """Press (and hold) the D-pad right if not already held."""
-    global right_pressed
+    global right_pressed, left_pressed
     if not right_pressed:
         gamepad.left_joystick(32767, 0)
         gamepad.update()
         right_pressed = True
-
-def release_right():
-    """Release the D-pad right if it is currently held."""
-    global right_pressed
-    if right_pressed:
-        gamepad.left_joystick(0, 0)
-        gamepad.update()
-        right_pressed = False
+        left_pressed = False
 
 def press_a():
     """Simulate pressing the controller's A button."""
@@ -176,19 +172,23 @@ def main():
         else:
             arrow_detected = False
 
-        # For left arrow: if detected OR within HOLD_BUFFER after last detection, hold left
-        if arrow_left_detected or (current_time - last_left_time < HOLD_BUFFER):
-            # Instead of pressing DPAD left, use stick control in your other code if desired.
-            # For now, we simply simulate "holding left" via your existing mechanism.
+        # Handle arrow directions with priority for the most recently detected arrow
+        if arrow_left_detected:
             press_left()
-        else:
-            release_left()
-        
-        # For right arrow: if detected OR within HOLD_BUFFER after last detection, hold right
-        if arrow_right_detected or (current_time - last_right_time < HOLD_BUFFER):
+        elif arrow_right_detected:
+            press_right()
+        elif (current_time - last_left_time < HOLD_BUFFER) and (current_time - last_right_time < HOLD_BUFFER):
+            # If both arrows were recently detected, use the most recent one
+            if last_left_time > last_right_time:
+                press_left()
+            else:
+                press_right()
+        elif (current_time - last_left_time < HOLD_BUFFER):
+            press_left()
+        elif (current_time - last_right_time < HOLD_BUFFER):
             press_right()
         else:
-            release_right()
+            reset_stick()
 
         # Recast logic: if no arrow detected for RECAST_DELAY seconds and enough time has passed since last recast
         if (not arrow_detected and 
@@ -211,7 +211,7 @@ def main():
             last_recast_time = current_time  # Update recast time
     
         # Short delay to reduce CPU usage
-        time.sleep(0.2)
+        time.sleep(0.1)
 
 if __name__ == "__main__":
     main()
